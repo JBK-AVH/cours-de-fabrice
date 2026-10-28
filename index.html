@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiches Pratiques Accessibles - Guide Smartphone</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #0f766e;
+            --accent-color: #7c3aed;
+            --border-color: #cbd5e1;
+            --focus-ring: #f59e0b;
+        }
+
+        [data-theme="high-contrast"] {
+            --bg-color: #000000;
+            --card-bg: #121212;
+            --text-color: #ffffff;
+            --primary-color: #3b82f6;
+            --primary-hover: #60a5fa;
+            --secondary-color: #14b8a6;
+            --accent-color: #a78bfa;
+            --border-color: #ffffff;
+            --focus-ring: #facc15;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 1.125rem; /* 18px de base pour une meilleure lisibilité */
+            padding: 1.5rem;
+        }
+
+        header {
+            max-width: 900px;
+            margin: 0 auto 2rem auto;
+            text-align: center;
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        /* Barre d'accessibilité / Commandes globales */
+        .accessibility-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: 2px solid transparent;
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn:focus {
+            outline: 4px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+
+        /* Filtres par catégories */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            max-width: 900px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .filter-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Statut de la synthèse vocale (lecteur en direct) */
+        #speech-status {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-top: 3px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        /* Grille des fiches */
+        main {
+            max-width: 900px;
+            margin: 0 auto 5rem auto; /* Marge en bas pour laisser de la place au bandeau fixe */
+        }
+
+        .category-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 6px solid var(--primary-color);
+            padding-left: 0.75rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        [data-theme="high-contrast"] .card h3 {
+            color: #60a5fa;
+        }
+
+        .card-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-content ul {
+            list-style-type: disc;
+            margin-left: 1.25rem;
+        }
+
+        .card-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .card-actions button {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Accessibilité du focus global */
+        a:focus, button:focus {
+            outline: 4px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Fiches Pratiques Accessibles</h1>
+        <p class="subtitle">Guide d'utilisation du smartphone pour personnes déficientes visuelles et non-voyantes</p>
+        
+        <div class="accessibility-bar">
+            <button class="btn" onclick="toggleContrast()">Basculer Mode Contraste Élevé</button>
+            <button class="btn btn-secondary" onclick="stopSpeech()">Arrêter la voix</button>
+        </div>
+    </header>
+
+    <!-- Filtres de catégories -->
+    <div class="filters" role="region" aria-label="Filtres par catégories">
+        <button class="filter-btn active" onclick="filterCategory('all', this)">Toutes les fiches</button>
+        <button class="filter-btn" onclick="filterCategory('accessibilite', this)">Accessibilité & Voix</button>
+        <button class="filter-btn" onclick="filterCategory('communication', this)">Communication & Appels</button>
+        <button class="filter-btn" onclick="filterCategory('securite', this)">Sécurité & Codes</button>
+        <button class="filter-btn" onclick="filterCategory('configuration', this)">Configuration</button>
+    </div>
+
+    <main id="fiches-container">
+
+        <!-- CATÉGORIE 1 : ACCESSIBILITÉ & VOIX -->
+        <div class="category-section" data-category="accessibilite">
+            <h2 class="category-title">Accessibilité & Voix</h2>
+            <div class="cards-grid">
+
+                <!-- Fiche 1 -->
+                <article class="card" id="fiche-1">
+                    <div>
+                        <h3>Activer et désactiver VoiceOver par le bouton latéral</h3>
+                        <div class="card-content">
+                            <p><strong>Marche à suivre :</strong></p>
+                            <ul>
+                                <li>Aller dans Réglages > Accessibilité > Raccourci d’accessibilité[cite: 1].</li>
+                                <li>Cocher VoiceOver[cite: 1].</li>
+                                <li>Désormais, en appuyant trois fois sur le bouton latéral, VoiceOver s’active ou se désactive[cite: 1].</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Activer et désactiver VoiceOver par le bouton latéral', document.getElementById('fiche-1').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+                <!-- Fiche 2 -->
+                <article class="card" id="fiche-2">
+                    <div>
+                        <h3>Activer / désactiver la synthèse vocale et le rideau d’écran</h3>
+                        <div class="card-content">
+                            <ul>
+                                <li><strong>Synthèse vocale :</strong> Taper 2 fois avec 3 doigts sur l’écran[cite: 9].</li>
+                                <li><strong>Rideau d’écran (masquer l'affichage) :</strong> Taper 3 fois avec 3 doigts sur l’écran[cite: 9].</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Activer et désactiver la synthèse vocale et le rideau d’écran', document.getElementById('fiche-2').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- CATÉGORIE 2 : COMMUNICATION & APPELS -->
+        <div class="category-section" data-category="communication">
+            <h2 class="category-title">Communication, Appels & Mails</h2>
+            <div class="cards-grid">
+
+                <!-- Fiche 3 -->
+                <article class="card" id="fiche-3">
+                    <div>
+                        <h3>Appel vocal, SMS et Agenda (Siri)</h3>
+                        <div class="card-content">
+                            <ul>
+                                <li><strong>Appel vocal :</strong> Appuyer sur le bouton latéral (ou central), puis dire le nom du contact[cite: 2]. Pour raccrocher : taper deux fois avec deux doigts n'importe où[cite: 2].</li>
+                                <li><strong>Envoyer un SMS :</strong> Appuyer sur le bouton, dire "envoyer un message à [nom]". Dicter, puis dire "envoyer le message", "modifier" ou "supprimer"[cite: 2].</li>
+                                <li><strong>Agenda vocal :</strong> Demander "ajouter un évènement au calendrier", puis dicter le nom, la date et l'heure[cite: 2, 10]. Pour consulter : "Ai-je des rendez-vous demain ou la semaine prochaine ?"[cite: 2]</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Appel vocal, SMS et Agenda', document.getElementById('fiche-3').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+                <!-- Fiche 4 -->
+                <article class="card" id="fiche-4">
+                    <div>
+                        <h3>Gestion de la boîte Mail et gestes tactiles</h3>
+                        <div class="card-content">
+                            <p><strong>Gestes essentiels :</strong></p>
+                            <ul>
+                                <li>Ouvrir : 2 touches rapides avec 1 doigt[cite: 3]. Élément suivant/précédent : glisser de droite à gauche ou gauche à droite[cite: 3].</li>
+                                <li>Pause/Lecture : 2 touches rapides avec 2 doigts[cite: 3]. Lecture complète : glisser de haut en bas avec 2 doigts[cite: 3].</li>
+                                <li>Retour page précédente : Faire un "Z" avec 2 doigts sur l'écran[cite: 3].</li>
+                            </ul>
+                            <p><strong>Mails :</strong> Ouvrir Mail (2 taps), parcourir les messages, glisser de haut en bas sur un mail pour "supprimer" ou "répondre"[cite: 3]. Pour dicter : taper 2 fois avec 2 doigts pour activer le micro, puis répéter pour couper avant d'envoyer[cite: 3].</p>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Gestion de la boîte Mail et gestes tactiles', document.getElementById('fiche-4').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+                <!-- Fiche 5 -->
+                <article class="card" id="fiche-5">
+                    <div>
+                        <h3>Code PIN et ajout d'un contact</h3>
+                        <div class="card-content">
+                            <ul>
+                                <li><strong>Code PIN SIM :</strong> Taper 2 fois avec 1 doigt sur le chiffre, placer le doigt en haut et glisser à droite jusqu'à entendre "OK", puis taper 2 fois[cite: 7].</li>
+                                <li><strong>Ajouter un contact :</strong> Aller dans Téléphone > Contacts > Ajouter. Saisir le nom, puis "ajouter un numéro", taper le chiffre et valider "OK"[cite: 7].</li>
+                                <li><strong>Depuis un appel récent :</strong> Dans "Contacts récents", sélectionner le numéro, maintenir avec une double tape (collée) jusqu'au bip pour ouvrir le menu et choisir "Nouveau contact"[cite: 7].</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Code PIN et ajout d\'un contact', document.getElementById('fiche-5').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- CATÉGORIE 3 : SÉCURITÉ & CODES -->
+        <div class="category-section" data-category="securite">
+            <h2 class="category-title">Sécurité & Codes</h2>
+            <div class="cards-grid">
+
+                <!-- Fiche 6 -->
+                <article class="card" id="fiche-6">
+                    <div>
+                        <h3>Changer le code PIN de la carte SIM</h3>
+                        <div class="card-content">
+                            <ul>
+                                <li>Aller dans Réglages > Données cellulaires[cite: 4].</li>
+                                <li>Sélectionner PIN de la carte SIM[cite: 4].</li>
+                                <li>Aller sur Modifier le PIN[cite: 4].</li>
+                                <li>Saisir le PIN actuel et valider, puis définir et confirmer le nouveau PIN[cite: 4].</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Changer le code PIN de la carte SIM', document.getElementById('fiche-6').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+                <!-- Fiche 7 -->
+                <article class="card" id="fiche-7">
+                    <div>
+                        <h3>Code de déverrouillage de l'écran</h3>
+                        <div class="card-content">
+                            <ul>
+                                <li>Aller dans Général > Face ID et code (ou Touch ID et code)[cite: 6].</li>
+                                <li>Taper le code actuel[cite: 6].</li>
+                                <li>Descendre sur "Changer le code" et retaper le code actuel[cite: 6].</li>
+                                <li>Aller sur "Option des codes" pour choisir un format (ex: code à quatre chiffres), puis saisir et confirmer le nouveau code[cite: 6].</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Code de déverrouillage de l\'écran', document.getElementById('fiche-7').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+                <!-- Fiche 8 -->
+                <article class="card" id="fiche-8">
+                    <div>
+                        <h3>Activer et désactiver le service d'urgence (SOS)</h3>
+                        <div class="card-content">
+                            <ul>
+                                <li>Étape 1 : Ouvrir les Paramètres / Réglages[cite: 8].</li>
+                                <li>Étape 2 : Appuyer sur « Sécurité et urgence »[cite: 8].</li>
+                                <li>Étape 3 : Appuyer sur « SOS d'urgence »[cite: 8].</li>
+                                <li>Étape 4 : Activer ou désactiver le commutateur[cite: 8].</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Activer et désactiver le service d\'urgence', document.getElementById('fiche-8').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- CATÉGORIE 4 : CONFIGURATION -->
+        <div class="category-section" data-category="configuration">
+            <h2 class="category-title">Configuration & Paramètres</h2>
+            <div class="cards-grid">
+
+                <!-- Fiche 9 -->
+                <article class="card" id="fiche-9">
+                    <div>
+                        <h3>Choix du clavier</h3>
+                        <div class="card-content">
+                            <ul>
+                                <li>Réglages[cite: 5]</li>
+                                <li>Général[cite: 5]</li>
+                                <li>Clavier[cite: 5] > Clavier[cite: 5]</li>
+                                <li>Français (France)[cite: 5]</li>
+                                <li>AZERTY Français[cite: 5]</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn" onclick="speakGuide('Choix du clavier', document.getElementById('fiche-9').innerText)">Écouter la fiche</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Élément de statut vocal fixe -->
+    <div id="speech-status" aria-live="polite">
+        Lecteur vocal prêt. Cliquez sur "Écouter la fiche" pour vocaliser un contenu.
+    </div>
+
+    <script>
+        const synth = window.speechSynthesis;
+        let currentUtterance = null;
+
+        // Fonction de synthèse vocale
+        function speakGuide(title, textContent) {
+            if (synth.speaking) {
+                synth.cancel();
+            }
+
+            const statusEl = document.getElementById('speech-status');
+            statusEl.innerText = `Lecture en cours : ${title}`;
+
+            // Nettoyage optionnel du texte (enlever le texte du bouton s'il est inclus)
+            const cleanText = textContent.replace("Écouter la fiche", "").trim();
+            const fullUtteranceText = `Fiche : ${title}. ${cleanText}`;
+
+            currentUtterance = new SpeechSynthesisUtterance(fullUtteranceText);
+            currentUtterance.lang = 'fr-FR';
+            currentUtterance.rate = 0.95; // Vitesse légèrement ralentie pour le confort d'écoute
+
+            currentUtterance.onend = function() {
+                statusEl.innerText = "Lecture terminée. Prêt.";
+            };
+
+            currentUtterance.onerror = function() {
+                statusEl.innerText = "Erreur lors de la lecture vocale.";
+            };
+
+            synth.speak(currentUtterance);
+        }
+
+        // Arrêter la voix
+        function stopSpeech() {
+            if (synth.speaking) {
+                synth.cancel();
+                document.getElementById('speech-status').innerText = "Lecture arrêtée.";
+            }
+        }
+
+        // Basculer le mode contraste élevé
+        function toggleContrast() {
+            const body = document.body;
+            if (body.getAttribute('data-theme') === 'high-contrast') {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'high-contrast');
+            }
+        }
+
+        // Filtrage par catégorie
+        function filterCategory(category, buttonElement) {
+            // Gérer les boutons actifs
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+
+            // Afficher ou masquer les sections
+            const sections = document.querySelectorAll('.category-section');
+            sections.forEach(section => {
+                if (category === 'all' || section.getAttribute('data-category') === category) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
